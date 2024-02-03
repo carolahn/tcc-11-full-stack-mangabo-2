@@ -11,15 +11,15 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      SECRET_KEY: django-insecure-97s)x3c8w8h_qv3t3s7%)#k@dpk2edr0ed_(rq9y(rbb&_!ai%
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: 0
-      DJANGO_ALLOWED_HOSTS: localhost 127.0.0.1 [::1]
-      DB_ENGINE: django.db.backends.postgresql_psycopg2
-      DB_NAME: coredb
-      DB_USER: core
-      DB_PASSWORD: 12345678
-      DB_HOST: localhost
-      DB_PORT: 5432
+      DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+      DB_ENGINE: ${{ secrets.DJANGO_ENGINE }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST}}
+      DB_PORT: ${{ secrets.DB_PORT }}
       CORS_ALLOWED_ORIGINS: http://localhost:3000 http://127.0.0.1:3000
     strategy:
       max-parallel: 4

@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
+# Initialise environment variables
+
+env = environ.Env()
+
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,12 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qkl+xdr8aimpf-&x(mi7)dwt^-q77aji#j*d#02-5usa32r9!y'
+SECRET_KEY = env('SECRET_KEY', default='qkl+xdr8aimpf-&x(mi7)dwt^-q77aji#j*d#02-5usa32r9!y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(env("DEBUG", default=1))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
+# ALLOWED_HOSTS = ['*']
 
 # Application definition
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -80,8 +89,12 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'NAME': env('DB_NAME', default='coredb'),
+        'USER': env('DB_USER', default='core'),
+        'PASSWORD': env('DB_PASSWORD', default='12345678'),
+        'HOST': env('DB_HOST', default='localhost'),
+        'PORT': env('DB_PORT', default='5432'),
     }
 }
 
@@ -120,6 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -130,8 +145,12 @@ REST_FRAMEWORK = {
     )
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000"
+# ]
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(" ")
+# CORS_ORIGIN_ALLOW_ALL = True
 
+TESTING = False
+TEST_RUNNER = "CoreRoot.test_runner.CoreTestRunner"

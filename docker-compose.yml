@@ -4,8 +4,15 @@ services:
     container_name: core_web
     restart: on-failure
     image: jonasal/nginx-certbot:latest
-    env_file:
-      - .env.nginx
+    environment:
+      - EC2_HOST_DNS=${EC2_HOST_DNS}
+      - CERTBOT_EMAIL=${CERTBOT_EMAIL}
+      - STAGING=1
+      - DHPARAM_SIZE=2048
+      - RSA_KEY_SIZE=2048
+      - ELLIPTIC_CURVE=secp256r1
+      - USE_ECDSA=0
+      - RENEWAL_INTERVAL=8d
     volumes:
       - nginx_secrets:/etc/letsencrypt
       - ./nginx/user_conf.d:/etc/nginx/user_conf.d

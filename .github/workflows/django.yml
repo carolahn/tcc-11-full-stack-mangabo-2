@@ -51,3 +51,21 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+
+  deploy:
+    name: Deploying
+    needs: [test]
+    runs-on: ubuntu-latest
+    env:
+      EC2_HOST_DNS: ${{ secrets.EC2_HOST_DNS }}
+      CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
+    steps:
+    - name: Deploying Application
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_DNS }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY_PEM }}
+        script: |
+            cd ~/.scripts
+            ./docker-deploy.sh

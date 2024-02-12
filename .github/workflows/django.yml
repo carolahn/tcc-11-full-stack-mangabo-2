@@ -8,19 +8,15 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      DEBUG: 0
-      DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
       DB_ENGINE: ${{ secrets.DB_ENGINE }}
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_HOST: ${{ secrets.DB_HOST}}
       DB_PORT: ${{ secrets.DB_PORT }}
-      CORS_ALLOWED_ORIGINS: http://localhost:3000 http://127.0.0.1:3000
     strategy:
       max-parallel: 4
       matrix:

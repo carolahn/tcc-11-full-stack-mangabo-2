@@ -3,22 +3,14 @@ services:
   nginx:
     container_name: core_web
     restart: on-failure
-    image: jonasal/nginx-certbot:latest
+    image: nginx:stable
     environment:
       - EC2_HOST_DNS=${EC2_HOST_DNS}
-      - CERTBOT_EMAIL=${CERTBOT_EMAIL}
-      - STAGING=1
-      - DHPARAM_SIZE=2048
-      - RSA_KEY_SIZE=2048
-      - ELLIPTIC_CURVE=secp256r1
-      - USE_ECDSA=0
-      - RENEWAL_INTERVAL=8d
     volumes:
-      - nginx_secrets:/etc/letsencrypt
-      - ./nginx/user_conf.d:/etc/nginx/user_conf.d
+      - ./nginx/user_conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/app/static
     ports:
       - "80:80"
-      - "443:443"
     depends_on:
       - web
 
@@ -47,4 +39,3 @@ services:
 volumes:
   static_volume:
   postgres_data:
-  nginx_secrets:

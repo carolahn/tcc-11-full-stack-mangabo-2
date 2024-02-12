@@ -32,8 +32,8 @@ SECRET_KEY = env('SECRET_KEY', default='qkl+xdr8aimpf-&x(mi7)dwt^-q77aji#j*d#02-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(env("DEBUG", default=1))
 
-ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
-# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -149,8 +149,8 @@ REST_FRAMEWORK = {
 #     "http://localhost:3000",
 #     "http://127.0.0.1:3000"
 # ]
-CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(" ")
-# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(" ")
+CORS_ORIGIN_ALLOW_ALL = True
 
 TESTING = False
 TEST_RUNNER = "CoreRoot.test_runner.CoreTestRunner"

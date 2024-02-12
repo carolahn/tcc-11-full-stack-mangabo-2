@@ -16,7 +16,9 @@ services:
 
   web:
     container_name: core_app
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     environment:
       - EC2_HOST_DNS=${EC2_HOST_DNS}

@@ -110,10 +110,5 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY_PEM }}
         script: |
-            sudo su
-            docker stop core_web core_app core_db
-            docker rm core_web core_app core_db
-            rm -rf tcc-11-full-stack-mangabo-2
-            git clone https://github.com/carolahn/tcc-11-full-stack-mangabo-2.git
-            cd tcc-11-full-stack-mangabo-2
-            sudo docker-compose -f docker-compose.prod.yml up --build -d
+          cd ~/.scripts
+          ./docker-deploy.sh

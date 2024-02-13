@@ -106,6 +106,10 @@ jobs:
       
     - name: Setup Database
       uses: appleboy/ssh-action@master
+      env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_HOST: ${{ secrets.DB_HOST }}
       with:
         host: ${{ secrets.EC2_HOST_DNS }}
         username: ${{ secrets.EC2_USERNAME }}

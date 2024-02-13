@@ -42,6 +42,13 @@ jobs:
       run: sudo apt-get install -y libpq-dev
     - name: Install Dependencies
       run: |
+        echo "SECRET_KEY=${SECRET_KEY}"
+        echo "DB_ENGINE=${DB_ENGINE}"
+        echo "DB_NAME=${DB_NAME}"
+        echo "DB_USER=${DB_USER}"
+        echo "DB_PASSWORD=${DB_PASSWORD}"
+        echo "DB_HOST=${DB_HOST}"
+        echo "DB_PORT=${DB_PORT}"
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
@@ -69,6 +76,14 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY_PEM }}
         script: |
+            echo "EC2_HOST_DNS=${EC2_HOST_DNS}"
+            echo "SECRET_KEY=${SECRET_KEY}"
+            echo "DB_ENGINE=${DB_ENGINE}"
+            echo "DB_NAME=${DB_NAME}"
+            echo "DB_USER=${DB_USER}"
+            echo "DB_PASSWORD=${DB_PASSWORD}"
+            echo "DB_HOST=${DB_HOST}"
+            echo "DB_PORT=${DB_PORT}"
             sudo su
             sudo apt-get update
             yes | sudo apt-get install docker.io

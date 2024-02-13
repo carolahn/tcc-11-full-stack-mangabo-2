@@ -37,7 +37,7 @@ jobs:
     - name: Set up environment variables from .env
       uses: envfile-actions/setup-envfile@v1
       with:
-        envfile: .env  # Caminho para o arquivo .env
+        envfile: ../../.env  # Caminho para o arquivo .env
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:

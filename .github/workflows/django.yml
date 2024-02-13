@@ -103,19 +103,6 @@ jobs:
             cd tcc-11-full-stack-mangabo-2
             sudo docker-compose -f docker-compose.prod.yml up --build -d
             
-    - name: Wait for core_db container to be ready
-      run: |
-        max_attempts=30
-        attempt=0
-        until docker exec core_db pg_isready; do
-          attempt=$((attempt + 1))
-          if [ $attempt -gt $max_attempts ]; then
-            echo "Max attempts reached. Exiting..."
-            exit 1
-          fi
-          echo "Waiting for core_db to be ready. Attempt $attempt/$max_attempts..."
-          sleep 5
-        done
       
     - name: Setup Database
       uses: appleboy/ssh-action@master

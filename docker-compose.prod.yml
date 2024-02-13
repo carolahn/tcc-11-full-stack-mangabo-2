@@ -16,9 +16,20 @@ services:
 
   web:
     container_name: core_app
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
-    env_file: .env
+    environment:
+      - EC2_HOST_DNS=${EC2_HOST_DNS}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - DB_ENGINE=${DB_ENGINE}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
     ports:
       - "5000:5000"
     command: >
@@ -32,7 +43,16 @@ services:
   db:
     container_name: core_db
     image: postgres:12.0-alpine
-    env_file: .env
+    environment:
+      - EC2_HOST_DNS=${EC2_HOST_DNS}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - DB_ENGINE=${DB_ENGINE}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 

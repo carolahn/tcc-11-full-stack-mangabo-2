@@ -25,8 +25,8 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: core
+          POSTGRES_PASSWORD: 12345678
           POSTGRES_DB: coredb
         ports:
           - 5432:5432

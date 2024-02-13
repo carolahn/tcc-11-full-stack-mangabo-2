@@ -103,19 +103,19 @@ jobs:
             cd tcc-11-full-stack-mangabo-2
             sudo docker-compose -f docker-compose.prod.yml up --build -d
             
-    - name: Wait for PostgreSQL to be ready
+    - name: Wait for core_db container to be ready
       run: |
         max_attempts=30
         attempt=0
-        until PGPASSWORD=${{ secrets.DB_PASSWORD }} psql -h ${{ secrets.DB_HOST }} -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }} -c '\q'; do
+        until docker exec core_db pg_isready; do
           attempt=$((attempt + 1))
           if [ $attempt -gt $max_attempts ]; then
-            echo "PostgreSQL not ready after $max_attempts attempts, exiting..."
+            echo "Max attempts reached. Exiting..."
             exit 1
           fi
-          sleep 10
+          echo "Waiting for core_db to be ready. Attempt $attempt/$max_attempts..."
+          sleep 5
         done
-      timeout-minutes: 5
       
     - name: Setup Database
       uses: appleboy/ssh-action@master

@@ -105,17 +105,3 @@ jobs:
             git clone https://github.com/carolahn/tcc-11-full-stack-mangabo-2.git
             cd tcc-11-full-stack-mangabo-2
             sudo docker-compose -f docker-compose.prod.yml up --build -d
-            
-      
-    # - name: Setup PostgreSQL
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host: ${{ secrets.EC2_HOST_DNS }}
-    #     username: ${{ secrets.EC2_USERNAME }}
-    #     key: ${{ secrets.EC2_SSH_KEY_PEM }}
-    #     script: |
-    #         sudo su
-    #         docker-compose -f /github/workspace/docker-compose.prod.yml exec -T db psql -U postgres -c "CREATE DATABASE coredb;"
-    #         docker-compose -f /github/workspace/docker-compose.prod.yml exec -T db psql -U postgres -c "CREATE USER core WITH PASSWORD '12345678';"
-    #         docker-compose -f /github/workspace/docker-compose.prod.yml exec -T db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
-      

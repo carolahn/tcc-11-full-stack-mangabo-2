@@ -102,14 +102,15 @@ jobs:
             git clone https://github.com/carolahn/tcc-11-full-stack-mangabo-2.git
             cd tcc-11-full-stack-mangabo-2
             sudo docker-compose -f docker-compose.prod.yml up --build -d
-            - name: Wait for core_db to be ready
-            uses: appleboy/wait-action@master
-            with:
-              time: 60
-              interval: 5
-              host: ${{ secrets.EC2_HOST_DNS }}
-              port: 5432
-              timeout: 300
+            
+    - name: Wait for core_db to be ready
+      uses: appleboy/wait-action@master
+      with:
+        time: 60
+        interval: 5
+        host: ${{ secrets.EC2_HOST_DNS }}
+        port: 5432
+        timeout: 300
       
     - name: Setup Database
       uses: appleboy/ssh-action@master

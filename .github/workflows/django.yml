@@ -102,3 +102,23 @@ jobs:
             git clone https://github.com/carolahn/tcc-11-full-stack-mangabo-2.git
             cd tcc-11-full-stack-mangabo-2
             sudo docker-compose -f docker-compose.prod.yml up --build -d
+            - name: Wait for core_db to be ready
+            uses: appleboy/wait-action@master
+            with:
+              time: 60
+              interval: 5
+              host: ${{ secrets.EC2_HOST_DNS }}
+              port: 5432
+              timeout: 300
+      
+    - name: Setup Database
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_DNS }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY_PEM }}
+        script: |
+          sudo su
+          docker-compose exec -T core_db psql -U postgres -d db -c "CREATE DATABASE coredb;"
+          docker-compose exec -T core_db psql -U postgres -d db -c "CREATE USER core WITH PASSWORD '12345678';"
+          docker-compose exec -T core_db psql -U postgres -d db -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"

@@ -98,6 +98,7 @@ jobs:
             sudo su
             docker stop core_app core_db core_web
             docker rm core_app core_db core_web
+            docker rmi tcc-11-full-stack-mangabo-2-web
             rm -rf tcc-11-full-stack-mangabo-2
             git clone https://github.com/carolahn/tcc-11-full-stack-mangabo-2.git
             cd tcc-11-full-stack-mangabo-2

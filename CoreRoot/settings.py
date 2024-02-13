@@ -20,14 +20,6 @@ env = environ.Env()
 
 environ.Env.read_env()
 
-# Tente carregar variáveis de ambiente do arquivo .env
-try:
-    from dotenv import load_dotenv
-    dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
-    load_dotenv(dotenv_path)
-except ImportError:
-    pass
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,12 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env('SECRET_KEY', default='qkl+xdr8aimpf-&x(mi7)dwt^-q77aji#j*d#02-5usa32r9!y')
-SECRET_KEY = os.environ.get('SECRET_KEY', 'qkl+xdr8aimpf-&x(mi7)dwt^-q77aji#j*d#02-5usa32r9!y')
+SECRET_KEY = env('SECRET_KEY', default='qkl+xdr8aimpf-&x(mi7)dwt^-q77aji#j*d#02-5usa32r9!y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = int(env("DEBUG", default=1))
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = int(env("DEBUG", default=1))
 
 # ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(" ")
 ALLOWED_HOSTS = ['*']
@@ -97,28 +87,16 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
-#         'NAME': env('DB_NAME', default='coredb'),
-#         'USER': env('DB_USER', default='core'),
-#         'PASSWORD': env('DB_PASSWORD', default='12345678'),
-#         'HOST': env('DB_HOST', default='localhost'),
-#         'PORT': env('DB_PORT', default='5432'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql_psycopg2'),
-        'NAME': os.environ.get('DB_NAME', 'coredb'),
-        'USER': os.environ.get('DB_USER', 'postgres'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'NAME': env('DB_NAME', default='coredb'),
+        'USER': env('DB_USER', default='core'),
+        'PASSWORD': env('DB_PASSWORD', default='12345678'),
+        'HOST': env('DB_HOST', default='localhost'),
+        'PORT': env('DB_PORT', default='5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

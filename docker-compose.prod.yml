@@ -56,20 +56,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
-  init_db:
-    image: postgres:12.0-alpine
-    command: >
-      sh -c "
-        sleep 5 &&
-        psql -h db -U ${DB_USER} -d ${DB_NAME} -c 'CREATE DATABASE coredb;' &&
-        psql -h db -U ${DB_USER} -d ${DB_NAME} -c \"CREATE USER core WITH PASSWORD '12345678';\" &&
-        psql -h db -U ${DB_USER} -d ${DB_NAME} -c 'GRANT ALL PRIVILEGES ON DATABASE coredb TO core;'"
-    depends_on:
-      - db
-    environment:
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=coredb
+  # init_db:
+  #   image: postgres:12.0-alpine
+  #   command: >
+  #     sh -c "
+  #       sleep 5 &&
+  #       psql -h db -U ${DB_USER} -d ${DB_NAME} -c 'CREATE DATABASE coredb;' &&
+  #       psql -h db -U ${DB_USER} -d ${DB_NAME} -c \"CREATE USER core WITH PASSWORD '12345678';\" &&
+  #       psql -h db -U ${DB_USER} -d ${DB_NAME} -c 'GRANT ALL PRIVILEGES ON DATABASE coredb TO core;'"
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=postgres
+  #     - DB_NAME=coredb
 
 
 volumes:

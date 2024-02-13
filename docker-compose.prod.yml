@@ -55,6 +55,7 @@ services:
       - DB_PORT=${DB_PORT}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   # init_db:
   #   image: postgres:12.0-alpine

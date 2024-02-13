@@ -54,7 +54,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EC2_HOST_DNS: ${{ secrets.EC2_HOST_DNS }}
-      CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DB_ENGINE: ${{ secrets.DB_ENGINE }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST}}
+      DB_PORT: ${{ secrets.DB_PORT }}
     steps:
     - name: Install docker on EC2
       uses: appleboy/ssh-action@master
@@ -89,5 +95,10 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY_PEM }}
         script: |
-            cd ~/.scripts
-            ./docker-deploy.sh
+            sudo su
+            docker stop core_app core_db core_web
+            docker rm core_app core_db core_web
+            rm -rf tcc-11-full-stack-mangabo-2
+            git clone https://github.com/carolahn/tcc-11-full-stack-mangabo-2.git
+            cd tcc-11-full-stack-mangabo-2
+            sudo docker-compose -f docker-compose.prod.yml up --build -d

@@ -115,7 +115,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY_PEM }}
         script: |
             sudo su
-            docker-compose -f docker-compose.prod.yml exec -T db psql -U postgres -c "CREATE DATABASE coredb;"
-            docker-compose -f docker-compose.prod.yml exec -T db psql -U postgres -c "CREATE USER core WITH PASSWORD '12345678';"
-            docker-compose -f docker-compose.prod.yml exec -T db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
+            docker-compose -f /github/workspace/docker-compose.prod.yml exec -T db psql -U postgres -c "CREATE DATABASE coredb;"
+            docker-compose -f /github/workspace/docker-compose.prod.yml exec -T db psql -U postgres -c "CREATE USER core WITH PASSWORD '12345678';"
+            docker-compose -f /github/workspace/docker-compose.prod.yml exec -T db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
       

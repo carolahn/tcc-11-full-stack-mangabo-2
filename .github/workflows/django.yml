@@ -108,13 +108,15 @@ jobs:
             
       
     - name: Setup PostgreSQL
-      run: |
-        sudo su
-        docker start coredb
-        docker exec -it core_db psql -U postgres -c "CREATE DATABASE coredb;"
-        docker exec -it core_db psql -U postgres -c "CREATE USER core WITH PASSWORD '12345678';"
-        docker exec -it core_db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
-      env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_HOST: ${{ secrets.DB_HOST }}
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_DNS }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY_PEM }}
+        script: |
+            sudo su
+            docker start coredb
+            docker exec -it core_db psql -U postgres -c "CREATE DATABASE coredb;"
+            docker exec -it core_db psql -U postgres -c "CREATE USER core WITH PASSWORD '12345678';"
+            docker exec -it core_db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
+      

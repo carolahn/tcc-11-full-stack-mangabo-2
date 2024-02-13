@@ -104,18 +104,9 @@ jobs:
             sudo docker-compose -f docker-compose.prod.yml up --build -d
             
       
-    - name: Setup Database
-      uses: appleboy/ssh-action@master
-      env:
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_HOST: ${{ secrets.DB_HOST }}
-      with:
-        host: ${{ secrets.EC2_HOST_DNS }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY_PEM }}
-        script: |
-          sudo su
-          docker-compose exec -T core_db psql -U postgres -d db -c "CREATE DATABASE coredb;"
-          docker-compose exec -T core_db psql -U postgres -d db -c "CREATE USER core WITH PASSWORD '12345678';"
-          docker-compose exec -T core_db psql -U postgres -d db -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
+    - name: Create database and user
+      run: |
+        sudo su
+        docker-compose exec -T core_db psql -U postgres -h db -c "CREATE DATABASE coredb;"
+        docker-compose exec -T core_db psql -U postgres -h db -c "CREATE USER core WITH PASSWORD '12345678';"
+        docker-compose exec -T core_db psql -U postgres -h db -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"

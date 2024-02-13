@@ -44,6 +44,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Apply Migrations and Create Database
+      run: |
+        python manage.py migrate
     # - name: Run Tests
     #   run: |
     #     python manage.py test
@@ -104,9 +107,12 @@ jobs:
             sudo docker-compose -f docker-compose.prod.yml up --build -d
             
       
-    - name: Create database and user
+    - name: Setup PostgreSQL
       run: |
-        sudo su
-        docker-compose exec -T core_db psql -U postgres -h db -c "CREATE DATABASE coredb;"
-        docker-compose exec -T core_db psql -U postgres -h db -c "CREATE USER core WITH PASSWORD '12345678';"
-        docker-compose exec -T core_db psql -U postgres -h db -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
+        sudo docker exec -it core_db psql -U postgres -c "CREATE DATABASE coredb;"
+        sudo docker exec -it core_db psql -U postgres -c "CREATE USER core WITH PASSWORD '12345678';"
+        sudo docker exec -it core_db psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coredb TO core;"
+      env:
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_HOST: ${{ secrets.DB_HOST }}
